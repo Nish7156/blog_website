@@ -1,19 +1,43 @@
-import type { NextPage } from 'next'
+import { AxiosResponse } from 'axios'
+import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
-import Image from 'next/image'
+import { featchCategories } from '../http'
+import { ICategory, ICollections } from '../interface'
+import axios from "axios";
+import { useEffect, useState } from 'react'
+import NavTabs from '../components/NavTabs'
 
-const Home: NextPage = () => {
+const Home: NextPage = ({items}:any) => {
+
+  const [TabsVal ,setTabsVal]= useState([]);
+  console.log(TabsVal,"tabs");
+  
+
+  useEffect( ()=>{
+
+    const response=  featchCategories()
+    .then((response) => {
+      console.log(response,"jj")
+      setTabsVal(response.data.data)
+    })
+    .catch((err) => console.log(err));
+
+  },[])
+
+ 
+  
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center py-2">
+    <>
       <Head>
-        <title>Create Next App</title>
+        <title>Blog</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h1>HIii</h1>
-      <br/>
+      <NavTabs navtabs={TabsVal}/>
+      
 
-    </div>
+    </>
   )
 }
 
 export default Home
+
