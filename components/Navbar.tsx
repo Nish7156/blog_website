@@ -10,7 +10,7 @@ function Navbar() {
             <div className='flex items-center cursor-pointer'>
               <Image src={''} width={100} height={50}/>
               <samp className='ml-2 text-green-500'>
-              Coders Blog
+              Nishants Blog
               </samp>
             </div>
           </Link>

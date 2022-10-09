@@ -11,4 +11,8 @@ const api = axios.create({
 
 
 
-export const featchCategories= async () => api.get('http://localhost:1337/api/categories')
+export const featchCategories= async () => api.get('http://localhost:1337/api/categories');
+
+export const featchArticles= async () => api.get('http://localhost:1337/api/articles');
+
+export const findBySlug= async (param:any) => api.get(`http://localhost:1337/api/articles?filters[category][slug][$eq]=${param}`)

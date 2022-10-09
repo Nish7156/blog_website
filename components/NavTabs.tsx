@@ -9,7 +9,6 @@ function NavTabs({navtabs}:any) {
   
 
   const isActiveLink=(ele:any)=> {
-    console.log(ele.attributes.slug,"==",router.categore);
     
  return ele.attributes.slug === router.query.categore
   }
@@ -29,7 +28,7 @@ function NavTabs({navtabs}:any) {
         </Link>
       </li>
       {navtabs.map((ele:any)=>{
-        return <li className='py-2 mr-2'>
+        return <li key={ele.id} className='py-2 mr-2'>
        <Link href={`/category/${ele.attributes.slug}`}>
        <a className={`pb-4 mr-4  border-b-4 rounded-sm` +`${
           isActiveLink(ele) ? 'border-b-green-700 font-bold text-green-700':' border-white'
