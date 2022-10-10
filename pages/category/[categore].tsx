@@ -1,15 +1,16 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
-import Card from '../../components/Card';
 import NavTabs from '../../components/NavTabs'
-import { featchArticles, featchCategories, findBySlug } from '../../http';
 
 function categore({TabsVal,SingleArt}:any) {
 
   const router = useRouter();
   // console.log(router.query.categore,"MMM");
-  
+
+  if(router.isFallback){
+    return <div>Loading.....</div>
+  }
    
   return (
     <>
@@ -40,8 +41,31 @@ function categore({TabsVal,SingleArt}:any) {
 
 export default categore
 
-export async function getServerSideProps(context:any) {
-  const param= context.query.categore;
+export async function getStaticPaths() {
+  const response= await fetch('http://127.0.0.1:1337/api/categories', {
+    method: 'GET',
+    headers: {
+      authorization: 'Bearer 050c3c35002c6454aeb3c1191dc1298b85b6a91b8562622965c3b907fc84dd9081cd9d74fa86c7e8e96bb28425085879eb03f2f1dfd4f792d253a11f6cde68c69cb6c889da9605bf3a69b9aa4bb80ca5900a2883a06cc4c049878cedb82735f11eb736c35f6b4c475fca989c8ba46d9e8af85261d3f2095bc8e616c1e50173bf'
+    },
+  });
+  const car = await response.json();
+
+  const paths = car.data.map((ele:any) => ({
+    params: { categore: ele.attributes.slug },
+  }))
+
+  // console.log(paths,"paths");
+  
+
+  return { paths, fallback: true }
+}
+
+
+
+export async function getStaticProps(context:any) {
+  let param= context.params.categore;
+  //  console.log(param,"++++++++");
+  
   
   const response= await fetch('http://127.0.0.1:1337/api/categories', {
     method: 'GET',
@@ -58,6 +82,8 @@ export async function getServerSideProps(context:any) {
     },
   });
   const AllArticles = await articles.json()
+  // console.log(AllArticles,"AllArticles");
+  
   
   return {
     props: {

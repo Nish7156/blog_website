@@ -32,7 +32,7 @@ const Home: NextPage = ({TabsVal,Article}:any) => {
 
 export default Home
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
 
   const response= await fetch('http://127.0.0.1:1337/api/categories', {
     method: 'GET',
@@ -49,7 +49,7 @@ export async function getServerSideProps() {
     },
   });
   const AllArticles = await articles.json()
-  console.log(AllArticles);
+  // console.log(AllArticles);
   
   return {
     props: {

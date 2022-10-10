@@ -1,6 +1,13 @@
+import { Router, useRouter } from 'next/router';
 import React from 'react'
 
+
 function article({SingleArt}:any) {
+  const router= useRouter()
+
+  if(router.isFallback){
+    return <div>Loading.....</div>
+  }
   return (
     <>
         {SingleArt.map((ele:any)=>{
@@ -15,10 +22,20 @@ function article({SingleArt}:any) {
 
 export default article;
 
-export async function getServerSideProps(context:any) {
-    const param= context.query.article;
-    
-    
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true
+  }
+}
+
+
+
+
+export async function getStaticProps(context:any) {
+
+  let param=context.params.article
+
     const response= await fetch('http://127.0.0.1:1337/api/categories', {
       method: 'GET',
       headers: {
@@ -34,7 +51,7 @@ export async function getServerSideProps(context:any) {
       },
     });
     const AllArticles = await article.json()
-    // console.log(AllArticles.data,"+++");
+    //  console.log(AllArticles.data,"+++");
     
     
     return {

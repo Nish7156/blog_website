@@ -1,7 +1,8 @@
 import React from 'react'
+import NavTabs from '../NavTabs';
 
 function Layout(props:any) {
-    console.log(props);
+    // console.log(props);
     
   return (
    <>
@@ -13,7 +14,7 @@ function Layout(props:any) {
 {}
 export default Layout
 
-export async function getServerSideProps(context:any) {
+export async function getStaticPaths(context:any) {
   
     const response= await fetch('http://127.0.0.1:1337/api/categories', {
       method: 'GET',
@@ -22,7 +23,7 @@ export async function getServerSideProps(context:any) {
       },
     });
     const data = await response.json();
-    console.log(data.data,"data+++___");
+    // console.log(data.data,"data+++___");
     
     
     return {
