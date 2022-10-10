@@ -34,7 +34,7 @@ export async function getServerSideProps(context:any) {
       },
     });
     const AllArticles = await article.json()
-    console.log(AllArticles.data,"+++");
+    // console.log(AllArticles.data,"+++");
     
     
     return {
