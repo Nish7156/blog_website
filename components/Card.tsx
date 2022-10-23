@@ -3,12 +3,12 @@ import React from "react";
 import UniqueCard from "./UniqueCard";
 
 function Card({ Article }: any) {
-  const DesArticles = Article.sort((a: any, b: any) => b.id - a.id);
+  // const DesArticles = Article.sort((a: any, b: any) => b.id - a.id);
 
   return (
     <>
       <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2">
-        {DesArticles.map((ele: any, index: number) => {
+        {Article.map((ele: any, index: number) => {
           return (
             <>
               {index === 1 ? (

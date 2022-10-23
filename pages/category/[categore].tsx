@@ -2,11 +2,12 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import NavTabs from "../../components/NavTabs";
+// import Paginaction from "../../components/Paginaction";
 import { featchCategories, findSingleArticle } from "../../http";
 
-function categore({ categories, SingleArt, test }: any) {
+function categore({ categories, SingleArt, test,pagination }: any) {
   console.log(test, "test");
-
+  // const {page,pageSize}= pagination.meta.pagination
   const router = useRouter();
   // console.log(router.query.categore,"MMM");
 
@@ -75,6 +76,7 @@ function categore({ categories, SingleArt, test }: any) {
           })}
         </div>
       </div>
+      {/* <Paginaction page={page} pageCount={pageSize}/> */}
     </>
   );
 }
@@ -105,6 +107,7 @@ export async function getStaticProps(context: any) {
       categories: categories.data,
       SingleArt: singleArticle.data,
       test: singleArticle,
+      // pagination:singleArticle
     },
     revalidate: 2,
   };
