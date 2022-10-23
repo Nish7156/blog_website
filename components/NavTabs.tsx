@@ -2,10 +2,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 
-function NavTabs({ navtabs }: any) {
+function NavTabs({ categories }: any) {
   const router = useRouter();
-
-  // console.log(router.pathname, "paht");
 
   const isActiveLink = (ele: any) => {
     return ele.attributes.slug === router.query.categore;
@@ -32,7 +30,7 @@ function NavTabs({ navtabs }: any) {
               </a>
             </Link>
           </li>
-          {navtabs.map((ele: any) => {
+          {categories.map((ele: any) => {
             return (
               <li key={ele.id} className="py-2 mr-2">
                 <Link href={`/category/${ele.attributes.slug}`}>

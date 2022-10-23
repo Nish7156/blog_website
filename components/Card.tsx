@@ -37,7 +37,8 @@ function Card({ Article }: any) {
                     </a>
                   </Link>
                   <p className="mb-3 font-normal text-gray-500 dark:text-gray-400">
-                    {ele.attributes.body}
+                    {ele.attributes.body.slice(0, 250)}
+                    {ele.attributes.body.length >= 250 ? "..." : ""}
                   </p>
                   <a
                     href="#"

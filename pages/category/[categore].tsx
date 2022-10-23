@@ -1,8 +1,12 @@
+import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import NavTabs from "../../components/NavTabs";
+import { featchCategories, findSingleArticle } from "../../http";
 
-function categore({ TabsVal, SingleArt }: any) {
+function categore({ categories, SingleArt, test }: any) {
+  console.log(test, "test");
+
   const router = useRouter();
   // console.log(router.query.categore,"MMM");
 
@@ -12,8 +16,12 @@ function categore({ TabsVal, SingleArt }: any) {
 
   return (
     <>
-      <NavTabs navtabs={TabsVal} />
-      
+      <Head>
+        <title>Category</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <NavTabs categories={categories} />
+
       <div className="mt-4">
         <div className="grid-cols-2 gap-4">
           {SingleArt.map((ele: any) => {
@@ -73,55 +81,31 @@ function categore({ TabsVal, SingleArt }: any) {
 
 export default categore;
 
+//Set Paths
 export async function getStaticPaths() {
-  const response = await fetch("http://127.0.0.1:1337/api/categories", {
-    method: "GET",
-    headers: {
-      authorization:
-        "Bearer 050c3c35002c6454aeb3c1191dc1298b85b6a91b8562622965c3b907fc84dd9081cd9d74fa86c7e8e96bb28425085879eb03f2f1dfd4f792d253a11f6cde68c69cb6c889da9605bf3a69b9aa4bb80ca5900a2883a06cc4c049878cedb82735f11eb736c35f6b4c475fca989c8ba46d9e8af85261d3f2095bc8e616c1e50173bf",
-    },
-  });
-  const car = await response.json();
+  const { data: categories } = await featchCategories();
 
-  const paths = car.data.map((ele: any) => ({
+  const paths = categories.data.map((ele: any) => ({
     params: { categore: ele.attributes.slug },
   }));
-
-  // console.log(paths,"paths");
 
   return { paths, fallback: true };
 }
 
+
+//SSG
 export async function getStaticProps(context: any) {
   let param = context.params.categore;
-  //  console.log(param,"++++++++");
 
-  const response = await fetch("http://127.0.0.1:1337/api/categories", {
-    method: "GET",
-    headers: {
-      authorization:
-        "Bearer 050c3c35002c6454aeb3c1191dc1298b85b6a91b8562622965c3b907fc84dd9081cd9d74fa86c7e8e96bb28425085879eb03f2f1dfd4f792d253a11f6cde68c69cb6c889da9605bf3a69b9aa4bb80ca5900a2883a06cc4c049878cedb82735f11eb736c35f6b4c475fca989c8ba46d9e8af85261d3f2095bc8e616c1e50173bf",
-    },
-  });
-  const data = await response.json();
+  const { data: categories } = await featchCategories();
 
-  const articles = await fetch(
-    `http://127.0.0.1:1337/api/articles?filters[category][slug][$eq]=${param}`,
-    {
-      method: "GET",
-      headers: {
-        authorization:
-          "Bearer 050c3c35002c6454aeb3c1191dc1298b85b6a91b8562622965c3b907fc84dd9081cd9d74fa86c7e8e96bb28425085879eb03f2f1dfd4f792d253a11f6cde68c69cb6c889da9605bf3a69b9aa4bb80ca5900a2883a06cc4c049878cedb82735f11eb736c35f6b4c475fca989c8ba46d9e8af85261d3f2095bc8e616c1e50173bf",
-      },
-    }
-  );
-  const AllArticles = await articles.json();
-  // console.log(AllArticles,"AllArticles");
-
+  const { data: singleArticle } = await findSingleArticle(param);
   return {
     props: {
-      TabsVal: data.data,
-      SingleArt: AllArticles.data,
+      categories: categories.data,
+      SingleArt: singleArticle.data,
+      test: singleArticle,
     },
+    revalidate: 2,
   };
 }
