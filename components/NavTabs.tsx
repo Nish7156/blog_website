@@ -2,8 +2,10 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 
-function NavTabs({ categories }: any) {
+function NavTabs({ categories,handleOnSearch }: any) {
   const router = useRouter();
+
+
 
   const isActiveLink = (ele: any) => {
     return ele.attributes.slug === router.query.categore;
@@ -51,7 +53,13 @@ function NavTabs({ categories }: any) {
             );
           })}
         </ul>
+       
+        <div className="flex justify-between ">
+          <input onChange={(e)=>handleOnSearch(e.target.value)} type="text"  className="border rounded-md"/>
+          </div>
+       
       </div>
+      
     </>
   );
 }

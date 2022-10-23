@@ -4,11 +4,20 @@ import { useRouter } from "next/router";
 import NavTabs from "../../components/NavTabs";
 // import Paginaction from "../../components/Paginaction";
 import { featchCategories, findSingleArticle } from "../../http";
+import { debounce } from "../../utils";
 
 function categore({ categories, SingleArt, test,pagination }: any) {
-  console.log(test, "test");
-  // const {page,pageSize}= pagination.meta.pagination
   const router = useRouter();
+  console.log(router.query.categore  , "qqqqqqq");
+  const handleOnSearch=(query:any)=>{
+    console.log();
+    router.push(`/?search=${query}`)
+
+    // /category/${router.query.categore }
+    
+  }
+  // const {page,pageSize}= pagination.meta.pagination
+
   // console.log(router.query.categore,"MMM");
 
   if (router.isFallback) {
@@ -21,7 +30,7 @@ function categore({ categories, SingleArt, test,pagination }: any) {
         <title>Category</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <NavTabs categories={categories} />
+      <NavTabs categories={categories} handleOnSearch={debounce(handleOnSearch,1000)} />
 
       <div className="mt-4">
         <div className="grid-cols-2 gap-4">
@@ -98,6 +107,8 @@ export async function getStaticPaths() {
 //SSG
 export async function getStaticProps(context: any) {
   let param = context.params.categore;
+  console.log(context,"{{}}");
+  
 
   const { data: categories } = await featchCategories();
 

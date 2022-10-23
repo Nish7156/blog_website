@@ -33,8 +33,8 @@ function Paginaction({ page, pageCount, redirectUrl = "/" }: any) {
 
     router.push(`${redirectUrl}?${queryString}`);
 
-    console.log(queryString, "queryString");
-    console.log(redirectUrl, "redirectUrl");
+    // console.log(queryString, "queryString");
+    // console.log(redirectUrl, "redirectUrl");
 
     router.push(`${redirectUrl}?${queryString}`);
   };
